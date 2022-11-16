@@ -11,26 +11,30 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 @RestController
 public class DataController implements QuestionInterface{
-    private final String FIND_TOP1_QUESTION = "SELECT *  FROM QUESTIONBANK LIMIT 1";
-    Questions qs =  new Questions();
+    private final String FIND_TOP1_QUESTION = "SELECT *  FROM QUESTIONBANK";
+    ArrayList<Questions> list_0f_questions = new ArrayList<>();
+
     @RequestMapping("/get-questions")
-    public Questions getQuestions(){
-        this.getQuestion();
-        return qs;
+    public List<Questions> getQuestions(){
+        this.getAllQuestions();
+        return list_0f_questions;
     }
 
+
     @Override
-    public void getQuestion() {
+    public void getAllQuestions() {
         try
         {
             MySQLDataConnection con = new MySQLDataConnection();
             Connection conn =  con.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(FIND_TOP1_QUESTION);
-            qs = this.mapRow(rs, 1);
+            list_0f_questions.clear();
+            this.mapRow(rs);
             conn.close();
         }
         catch(Exception ex)
@@ -39,17 +43,12 @@ public class DataController implements QuestionInterface{
         }
     }
 
-    @Override
-    public List<Questions> getAllQuestionns() {
-        return null;
-    }
+    public void mapRow(ResultSet rs) throws SQLException {
 
-    public Questions mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Questions questions = new Questions();
-        if(rs.next())
+        while(rs.next())
         {
-            questions.setQuestions(rs.getString("Question"));
+            Questions questions = new Questions(rs.getInt("QuestionID"), rs.getString("Question"));
+            list_0f_questions.add(questions);
         }
-        return questions;
     }
 }

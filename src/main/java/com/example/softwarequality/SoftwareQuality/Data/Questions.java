@@ -1,20 +1,37 @@
 package com.example.softwarequality.SoftwareQuality.Data;
 
+
 public class Questions {
 
-    public Questions(String questions) {
-        this.questions_in_db = questions;
+    public Questions(int questionID, String question)
+    {
+        this.questionID = questionID;
+        this.question = question;
     }
-    public Questions() {
-        this.questions_in_db = "";
+    public Questions()
+    {
+        this.questionID = 0;
+        this.question = "";
     }
-    public String getQuestions() {
-        return questions_in_db;
+    public String getQuestions()
+    {
+        return question;
     }
 
-    public void setQuestions(String questions) {
-        this.questions_in_db = questions;
+    public void setQuestions(String question)
+    {
+        this.question = question;
     }
 
-    private String questions_in_db;
+    public int getQuestionID() {
+        return questionID;
+    }
+
+    public void setQuestionID(int questionID) {
+        this.questionID = questionID;
+    }
+
+    private String question;
+    private int questionID;
+
 }
