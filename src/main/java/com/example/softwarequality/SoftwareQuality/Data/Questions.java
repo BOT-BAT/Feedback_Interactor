@@ -5,7 +5,9 @@ public class Questions {
     public Questions(String questions) {
         this.questions_in_db = questions;
     }
-
+    public Questions() {
+        this.questions_in_db = "";
+    }
     public String getQuestions() {
         return questions_in_db;
     }
