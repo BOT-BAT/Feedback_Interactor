@@ -6,21 +6,12 @@ public class Questions {
     public Questions(int questionID, String question)
     {
         this.questionID = questionID;
-        this.question = question;
+        this.quesText = question;
     }
     public Questions()
     {
         this.questionID = 0;
-        this.question = "";
-    }
-    public String getQuestions()
-    {
-        return question;
-    }
-
-    public void setQuestions(String question)
-    {
-        this.question = question;
+        this.quesText = "";
     }
 
     public int getQuestionID() {
@@ -31,7 +22,15 @@ public class Questions {
         this.questionID = questionID;
     }
 
-    private String question;
+    public String getQuesText() {
+        return quesText;
+    }
+
+    public void setQuesText(String quesText) {
+        this.quesText = quesText;
+    }
+
+    private String quesText;
     private int questionID;
 
 }
