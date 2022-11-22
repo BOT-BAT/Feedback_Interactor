@@ -5,9 +5,7 @@ import com.example.softwarequality.SoftwareQuality.Data.ModuleResponseEntity;
 import com.example.softwarequality.SoftwareQuality.Data.Questions;
 import com.example.softwarequality.SoftwareQuality.Data.Modules;
 import com.example.softwarequality.SoftwareQuality.Repository.MySQLDataConnection;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.sql.Connection;
@@ -16,12 +14,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @RestController
 public class DataController implements QuestionInterface{
     private final String getAllQuestions = "SELECT *  FROM QUESTIONBANK";
     private final String LIST_MODULES = "SELECT * FROM MODULE";
+    private int userID = 0;
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     Connection conn;
     ArrayList<Questions> list_0f_questions = new ArrayList<>();
     ArrayList<Modules> list_0f_modules = new ArrayList<>();
@@ -44,6 +46,70 @@ public class DataController implements QuestionInterface{
     {
         this.moduleBasedResponse(moduleID);
         return response_list;
+    }
+
+    @RequestMapping("/allow-response-addition")
+    public Object checkResponseExists(@RequestParam("moduleID") int moduleID, @RequestParam("emailAddress") String emailAddress)
+    {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailAddress);
+        if(matcher.matches())
+        {
+            this.getUserID(emailAddress);
+            boolean shouldResponseBeAdded = true;
+            if(userID != 0)
+            {
+                shouldResponseBeAdded = this.checkResponseInDB(userID, moduleID);
+                userID = 0;
+            }
+            return  shouldResponseBeAdded;
+        }
+        else
+        {
+            IllegalArgumentException ex =  new IllegalArgumentException("Incorrect Email Address format");
+            return ex.getMessage();
+        }
+
+    }
+
+   public void getUserID(String emailAddress)
+    {
+        try
+        {
+            String get_UserID = "SELECT * FROM User where EmailAddress = '" + emailAddress + "'";
+            ResultSet rs = this.getStatementObject().executeQuery(get_UserID);
+            this.mapRow(rs, 'u');
+            conn.close();
+        }
+        catch (Exception ex)
+        {
+            System.out.print(ex);
+        }
+    }
+
+    public boolean checkResponseInDB(int userID, int moduleID)
+    {
+        try
+        {
+            String s = " AND moduleID = " + moduleID;
+            String getResponse = "SELECT * FROM response where userID = " + userID + s;
+            ResultSet rs =  this.getStatementObject().executeQuery(getResponse);
+            if(rs.next())
+            {
+                conn.close();
+                return false;
+            }
+            else
+            {
+                conn.close();
+                return true;
+            }
+
+        }
+        catch(Exception ex)
+        {
+            System.out.print(ex);
+        }
+        return true;
     }
 
     public void moduleBasedResponse(int moduleID)
@@ -130,6 +196,11 @@ public class DataController implements QuestionInterface{
                         list_0f_questions.add(questions);
                     }
                     break;
+            case 'u' : if(rs.next())
+                       {
+                        userID =  rs.getInt(1);
+                       }
+                       break;
         }
 
     }
