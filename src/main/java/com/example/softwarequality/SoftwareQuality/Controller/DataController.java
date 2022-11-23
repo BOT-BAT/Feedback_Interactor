@@ -1,18 +1,14 @@
 package com.example.softwarequality.SoftwareQuality.Controller;
 
 import com.example.softwarequality.SoftwareQuality.DBFunctionInterface.QuestionInterface;
-import com.example.softwarequality.SoftwareQuality.Data.ModuleResponseEntity;
-import com.example.softwarequality.SoftwareQuality.Data.Questions;
-import com.example.softwarequality.SoftwareQuality.Data.Modules;
+import com.example.softwarequality.SoftwareQuality.Data.*;
 import com.example.softwarequality.SoftwareQuality.Repository.MySQLDataConnection;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,18 +61,88 @@ public class DataController implements QuestionInterface{
         }
         else
         {
-            IllegalArgumentException ex =  new IllegalArgumentException("Incorrect Email Address format");
-            return ex.getMessage();
+            return getException();
         }
 
     }
 
-   public void getUserID(String emailAddress)
+    private static String getException() {
+        IllegalArgumentException ex =  new IllegalArgumentException("Incorrect Email Address format");
+        return ex.getMessage();
+    }
+
+    @PostMapping(value = "/submit-feedback", consumes = "application/json")
+    public Object submitFeedback(@RequestBody FeedbackRequestEntity feedback)
+    {
+        boolean shouldResponseBeAdded = (boolean) this.checkResponseExists(feedback.getModuleID(), feedback.getEmailAddress());
+
+        if(shouldResponseBeAdded)
+        {
+            this.insertFeedbackToDB(feedback);
+            return  true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void insertFeedbackToDB(FeedbackRequestEntity feedback) {
+        try
+        {
+            userID = 0;
+            this.addUser(feedback.getEmailAddress());
+            this.getUserID(feedback.getEmailAddress());
+            String insertResponse = "Insert into response (Response, ModuleID, QuestionID, UserID) values (?,?,?,?)";
+            MySQLDataConnection con = new MySQLDataConnection();
+            conn =  con.getConnection();
+            conn.setAutoCommit(false);
+            PreparedStatement prepareStatement = conn.prepareStatement(insertResponse);
+            Iterator<RequestEntity> it = feedback.getRequestList().iterator();
+            while(it.hasNext()){
+                RequestEntity requestEntity = it.next();
+                prepareStatement.setInt(2, feedback.getModuleID());
+                prepareStatement.setInt(3,requestEntity.getQuestionID());
+                prepareStatement.setInt(1,requestEntity.getResponse());
+                prepareStatement.setInt(4, userID);
+                prepareStatement.addBatch();
+            }
+
+            int [] numUpdates = prepareStatement.executeBatch();
+            for (int i=0; i < numUpdates.length; i++) {
+                if (numUpdates[i] == -2)
+                    System.out.println("Execution " + i +
+                            ": unknown number of rows updated");
+                else
+                    System.out.println("Execution " + i +
+                            "successful: " + numUpdates[i] + " rows updated");
+            }
+            conn.commit();
+        }
+        catch (Exception ex)
+        {
+            System.out.print("" + ex);
+        }
+    }
+
+    private void addUser(String emailAddress) {
+        try
+        {
+            String insertUser =  "Insert into user (EmailAddress) values ('" + emailAddress + "')";
+            this.getStatementObject().executeUpdate(insertUser);
+        }
+        catch (Exception ex)
+        {
+            System.out.print("" + ex);
+        }
+    }
+
+    public void getUserID(String emailAddress)
     {
         try
         {
             String get_UserID = "SELECT * FROM User where EmailAddress = '" + emailAddress + "'";
-            ResultSet rs = this.getStatementObject().executeQuery(get_UserID);
+            ResultSet rs = this.getResultSet(get_UserID);
             this.mapRow(rs, 'u');
             conn.close();
         }
@@ -92,7 +158,7 @@ public class DataController implements QuestionInterface{
         {
             String s = " AND moduleID = " + moduleID;
             String getResponse = "SELECT * FROM response where userID = " + userID + s;
-            ResultSet rs =  this.getStatementObject().executeQuery(getResponse);
+            ResultSet rs =  this.getResultSet(getResponse);
             if(rs.next())
             {
                 conn.close();
@@ -117,7 +183,7 @@ public class DataController implements QuestionInterface{
         try
         {
             String getResponseByModuleID = "SELECT Count(response.response) AS COUNT, response.Response, response.ModuleID, response.QuestionID, questionbank.Question  FROM response JOIN questionbank ON response.QuestionID=questionbank.QuestionID WHERE response.ModuleID = " + moduleID + " GROUP BY response.ModuleID,response.QuestionID";
-            ResultSet rs = this.getStatementObject().executeQuery(getResponseByModuleID);
+            ResultSet rs = this.getResultSet(getResponseByModuleID);
             response_list.clear();
             this.mapRow(rs, 'n');
             conn.close();
@@ -141,11 +207,22 @@ public class DataController implements QuestionInterface{
         }
         return null;
     }
+
+    public ResultSet getResultSet(String rsQuery) {
+        try {
+            return this.getStatementObject().executeQuery(rsQuery);
+        }
+        catch(Exception ex)
+        {
+            System.out.println("" + ex);
+        }
+        return null;
+    }
     @Override
     public void getAllQuestions() {
         try
         {
-            ResultSet rs = this.getStatementObject().executeQuery(getAllQuestions);
+            ResultSet rs = this.getResultSet(getAllQuestions);
             list_0f_questions.clear();
             this.mapRow(rs, 'q');
             conn.close();
@@ -160,7 +237,7 @@ public class DataController implements QuestionInterface{
     public void getModuleList() {
         try
         {
-            ResultSet rs = this.getStatementObject().executeQuery(LIST_MODULES);
+            ResultSet rs = this.getResultSet(LIST_MODULES);
             list_0f_modules.clear();
             this.mapRow(rs, 'm');
             conn.close();
@@ -175,32 +252,32 @@ public class DataController implements QuestionInterface{
 
         switch (type) {
             case 'm' : while(rs.next())
-                            {
-                                Modules m = new Modules(rs.getInt("ModuleID"), rs.getString("ModuleName"));
-                                list_0f_modules.add(m);
-                            }
-                            break;
+            {
+                Modules m = new Modules(rs.getInt("ModuleID"), rs.getString("ModuleName"));
+                list_0f_modules.add(m);
+            }
+                break;
             case 'n' : while(rs.next())
-                       {
-                            ModuleResponseEntity moduleResponseEntity = new ModuleResponseEntity();
-                            moduleResponseEntity.setCount(rs.getInt(1));
-                            moduleResponseEntity.setResponse(rs.getInt(2));
-                            moduleResponseEntity.setModuleID(rs.getInt(3));
-                            moduleResponseEntity.setQuestionID(rs.getInt(4));
-                            moduleResponseEntity.setQuestion(rs.getString(5));
-                            response_list.add(moduleResponseEntity);
-                       }
+            {
+                ModuleResponseEntity moduleResponseEntity = new ModuleResponseEntity();
+                moduleResponseEntity.setCount(rs.getInt(1));
+                moduleResponseEntity.setResponse(rs.getInt(2));
+                moduleResponseEntity.setModuleID(rs.getInt(3));
+                moduleResponseEntity.setQuestionID(rs.getInt(4));
+                moduleResponseEntity.setQuestion(rs.getString(5));
+                response_list.add(moduleResponseEntity);
+            }
             case 'q': while(rs.next())
-                    {
-                        Questions questions = new Questions(rs.getInt("QuestionID"), rs.getString("Question"));
-                        list_0f_questions.add(questions);
-                    }
-                    break;
+            {
+                Questions questions = new Questions(rs.getInt("QuestionID"), rs.getString("Question"));
+                list_0f_questions.add(questions);
+            }
+                break;
             case 'u' : if(rs.next())
-                       {
-                        userID =  rs.getInt(1);
-                       }
-                       break;
+            {
+                userID =  rs.getInt(1);
+            }
+                break;
         }
 
     }
