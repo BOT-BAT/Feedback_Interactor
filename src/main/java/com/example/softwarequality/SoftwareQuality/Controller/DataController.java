@@ -38,10 +38,42 @@ public class DataController implements QuestionInterface{
     }
 
     @RequestMapping("/get-module-response/")
-    public List<ModuleResponseEntity> getModuleBasedResponse(@RequestParam("moduleID") int moduleID)
-    {
-        this.moduleBasedResponse(moduleID);
-        return response_list;
+    public Object getModuleBasedResponse(@RequestParam("moduleID") int moduleID) {
+
+        if(this.checkModuleID(moduleID))
+        {
+            this.moduleBasedResponse(moduleID);
+            return response_list;
+        }
+        else
+        {
+            return "Error 100024 ModuleId doesn't exist";
+        }
+
+
+    }
+
+    private boolean checkModuleID(int moduleID) {
+
+        try
+        {
+            String checkModuleID = "Select * from Module where ModuleID = " + moduleID;
+            ResultSet rs = this.getResultSet(checkModuleID);
+            if (rs.next())
+            {
+                conn.close();
+                return true;
+
+            }
+            else {
+                conn.close();
+            }
+        }
+        catch(Exception ex)
+        {
+            System.out.println(""+ ex);
+        }
+        return false;
     }
 
     @RequestMapping("/allow-response-addition")
