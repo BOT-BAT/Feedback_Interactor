@@ -25,25 +25,61 @@ public class DataController implements QuestionInterface{
     ArrayList<Modules> list_0f_modules = new ArrayList<>();
     ArrayList<ModuleResponseEntity> response_list = new ArrayList<>();
 
+    @CrossOrigin
     @RequestMapping("/get-questions")
     public List<Questions> getQuestions(){
         this.getAllQuestions();
         return list_0f_questions;
     }
 
+    @CrossOrigin
     @RequestMapping("/get-modules")
     public List<Modules> getModules(){
         this.getModuleList();
         return list_0f_modules;
     }
 
+    @CrossOrigin
     @RequestMapping("/get-module-response/")
-    public List<ModuleResponseEntity> getModuleBasedResponse(@RequestParam("moduleID") int moduleID)
-    {
-        this.moduleBasedResponse(moduleID);
-        return response_list;
+    public Object getModuleBasedResponse(@RequestParam("moduleID") int moduleID) {
+
+        if(this.checkModuleID(moduleID))
+        {
+            this.moduleBasedResponse(moduleID);
+            return response_list;
+        }
+        else
+        {
+            return "Error 100024 ModuleId doesn't exist";
+        }
+
+
     }
 
+    private boolean checkModuleID(int moduleID) {
+
+        try
+        {
+            String checkModuleID = "Select * from Module where ModuleID = " + moduleID;
+            ResultSet rs = this.getResultSet(checkModuleID);
+            if (rs.next())
+            {
+                conn.close();
+                return true;
+
+            }
+            else {
+                conn.close();
+            }
+        }
+        catch(Exception ex)
+        {
+            System.out.println(""+ ex);
+        }
+        return false;
+    }
+
+    @CrossOrigin
     @RequestMapping("/allow-response-addition")
     public Object checkResponseExists(@RequestParam("moduleID") int moduleID, @RequestParam("emailAddress") String emailAddress)
     {
@@ -71,6 +107,7 @@ public class DataController implements QuestionInterface{
         return ex.getMessage();
     }
 
+    @CrossOrigin
     @PostMapping(value = "/submit-feedback", consumes = "application/json")
     public Object submitFeedback(@RequestBody FeedbackRequestEntity feedback)
     {
