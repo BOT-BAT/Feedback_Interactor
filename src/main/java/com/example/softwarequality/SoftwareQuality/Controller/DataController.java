@@ -25,18 +25,21 @@ public class DataController implements QuestionInterface{
     ArrayList<Modules> list_0f_modules = new ArrayList<>();
     ArrayList<ModuleResponseEntity> response_list = new ArrayList<>();
 
+    @CrossOrigin
     @RequestMapping("/get-questions")
     public List<Questions> getQuestions(){
         this.getAllQuestions();
         return list_0f_questions;
     }
 
+    @CrossOrigin
     @RequestMapping("/get-modules")
     public List<Modules> getModules(){
         this.getModuleList();
         return list_0f_modules;
     }
 
+    @CrossOrigin
     @RequestMapping("/get-module-response/")
     public Object getModuleBasedResponse(@RequestParam("moduleID") int moduleID) {
 
@@ -76,6 +79,7 @@ public class DataController implements QuestionInterface{
         return false;
     }
 
+    @CrossOrigin
     @RequestMapping("/allow-response-addition")
     public Object checkResponseExists(@RequestParam("moduleID") int moduleID, @RequestParam("emailAddress") String emailAddress)
     {
@@ -103,6 +107,7 @@ public class DataController implements QuestionInterface{
         return ex.getMessage();
     }
 
+    @CrossOrigin
     @PostMapping(value = "/submit-feedback", consumes = "application/json")
     public Object submitFeedback(@RequestBody FeedbackRequestEntity feedback)
     {
