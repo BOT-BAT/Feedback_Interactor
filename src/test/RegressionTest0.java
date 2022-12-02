@@ -15,9 +15,9 @@ public class RegressionTest0 {
         com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity feedbackRequestEntity1 = null;
         // The following exception was thrown during execution in test generation
         try {
-            Object obj2 = dataController0.submitFeedback(feedbackRequestEntity1);
+            java.lang.Object obj2 = dataController0.submitFeedback(feedbackRequestEntity1);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: Cannot invoke \"com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity.getModuleID()\" because \"feedback\" is null");
-        } catch (NullPointerException e) {
+        } catch (java.lang.NullPointerException e) {
             // Expected exception.
         }
     }
@@ -27,9 +27,9 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test02");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
-        Class<?> wildcardClass4 = dataController0.getClass();
+        java.lang.Class<?> wildcardClass4 = dataController0.getClass();
         org.junit.Assert.assertEquals("'" + obj2 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj2, "Error 100024 ModuleId doesn't exist");
         org.junit.Assert.assertNotNull(modulesList3);
         org.junit.Assert.assertNotNull(wildcardClass4);
@@ -49,7 +49,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test04");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj3 = dataController0.checkResponseExists(1, "Error 100024 ModuleId doesn't exist");
+        java.lang.Object obj3 = dataController0.checkResponseExists(1, "Error 100024 ModuleId doesn't exist");
         org.junit.Assert.assertEquals("'" + obj3 + "' != '" + "Incorrect Email Address format" + "'", obj3, "Incorrect Email Address format");
     }
 
@@ -58,7 +58,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test05");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         boolean boolean5 = dataController0.checkResponseInDB((int) 'a', (int) 'a');
         org.junit.Assert.assertEquals("'" + obj2 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj2, "Error 100024 ModuleId doesn't exist");
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
@@ -73,9 +73,9 @@ public class RegressionTest0 {
         com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity feedbackRequestEntity2 = null;
         // The following exception was thrown during execution in test generation
         try {
-            Object obj3 = dataController0.submitFeedback(feedbackRequestEntity2);
+            java.lang.Object obj3 = dataController0.submitFeedback(feedbackRequestEntity2);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: Cannot invoke \"com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity.getModuleID()\" because \"feedback\" is null");
-        } catch (NullPointerException e) {
+        } catch (java.lang.NullPointerException e) {
             // Expected exception.
         }
     }
@@ -85,7 +85,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test07");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
         dataController0.moduleBasedResponse((int) (byte) -1);
         org.junit.Assert.assertEquals("'" + obj2 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj2, "Error 100024 ModuleId doesn't exist");
@@ -97,11 +97,11 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test08");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
         java.sql.ResultSet resultSet4 = null;
         dataController0.mapRow(resultSet4, '4');
-        Class<?> wildcardClass7 = dataController0.getClass();
+        java.lang.Class<?> wildcardClass7 = dataController0.getClass();
         org.junit.Assert.assertEquals("'" + obj2 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj2, "Error 100024 ModuleId doesn't exist");
         org.junit.Assert.assertNotNull(modulesList3);
         org.junit.Assert.assertNotNull(wildcardClass7);
@@ -116,9 +116,9 @@ public class RegressionTest0 {
         com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity feedbackRequestEntity2 = null;
         // The following exception was thrown during execution in test generation
         try {
-            Object obj3 = dataController0.submitFeedback(feedbackRequestEntity2);
+            java.lang.Object obj3 = dataController0.submitFeedback(feedbackRequestEntity2);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: Cannot invoke \"com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity.getModuleID()\" because \"feedback\" is null");
-        } catch (NullPointerException e) {
+        } catch (java.lang.NullPointerException e) {
             // Expected exception.
         }
     }
@@ -164,7 +164,7 @@ public class RegressionTest0 {
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
         dataController0.moduleBasedResponse((int) (byte) 10);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
-        Class<?> wildcardClass4 = dataController0.getClass();
+        java.lang.Class<?> wildcardClass4 = dataController0.getClass();
         org.junit.Assert.assertNotNull(modulesList3);
         org.junit.Assert.assertNotNull(wildcardClass4);
     }
@@ -185,7 +185,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test15");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
         java.sql.ResultSet resultSet4 = null;
         dataController0.mapRow(resultSet4, '4');
@@ -213,7 +213,7 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test17");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
         dataController0.moduleBasedResponse((int) (byte) 10);
-        Object obj5 = dataController0.checkResponseExists(100, "");
+        java.lang.Object obj5 = dataController0.checkResponseExists(100, "");
         org.junit.Assert.assertEquals("'" + obj5 + "' != '" + "Incorrect Email Address format" + "'", obj5, "Incorrect Email Address format");
     }
 
@@ -222,7 +222,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test18");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
         java.sql.ResultSet resultSet4 = null;
         dataController0.mapRow(resultSet4, '4');
@@ -252,7 +252,7 @@ public class RegressionTest0 {
         dataController0.getModuleList();
         dataController0.getAllQuestions();
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Questions> questionsList3 = dataController0.getQuestions();
-        Class<?> wildcardClass4 = questionsList3.getClass();
+        java.lang.Class<?> wildcardClass4 = questionsList3.getClass();
         org.junit.Assert.assertNotNull(questionsList3);
         org.junit.Assert.assertNotNull(wildcardClass4);
     }
@@ -265,7 +265,7 @@ public class RegressionTest0 {
         dataController0.getAllQuestions();
         java.sql.ResultSet resultSet2 = null;
         dataController0.mapRow(resultSet2, ' ');
-        Object obj6 = dataController0.getModuleBasedResponse(0);
+        java.lang.Object obj6 = dataController0.getModuleBasedResponse(0);
         org.junit.Assert.assertEquals("'" + obj6 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj6, "Error 100024 ModuleId doesn't exist");
     }
 
@@ -274,7 +274,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test22");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         dataController0.moduleBasedResponse(10);
         org.junit.Assert.assertEquals("'" + obj2 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj2, "Error 100024 ModuleId doesn't exist");
     }
@@ -302,9 +302,9 @@ public class RegressionTest0 {
         com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity feedbackRequestEntity5 = null;
         // The following exception was thrown during execution in test generation
         try {
-            Object obj6 = dataController0.submitFeedback(feedbackRequestEntity5);
+            java.lang.Object obj6 = dataController0.submitFeedback(feedbackRequestEntity5);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: Cannot invoke \"com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity.getModuleID()\" because \"feedback\" is null");
-        } catch (NullPointerException e) {
+        } catch (java.lang.NullPointerException e) {
             // Expected exception.
         }
     }
@@ -320,7 +320,7 @@ public class RegressionTest0 {
         dataController0.mapRow(resultSet3, '4');
         dataController0.getUserID("Incorrect Email Address format");
         java.sql.ResultSet resultSet9 = dataController0.getResultSet("Incorrect Email Address format");
-        Object obj12 = dataController0.checkResponseExists(10, "Incorrect Email Address format");
+        java.lang.Object obj12 = dataController0.checkResponseExists(10, "Incorrect Email Address format");
         dataController0.moduleBasedResponse((-1));
         org.junit.Assert.assertNull(resultSet9);
         org.junit.Assert.assertEquals("'" + obj12 + "' != '" + "Incorrect Email Address format" + "'", obj12, "Incorrect Email Address format");
@@ -331,7 +331,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test26");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
         dataController0.getUserID("Incorrect Email Address format");
         org.junit.Assert.assertEquals("'" + obj2 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj2, "Error 100024 ModuleId doesn't exist");
@@ -343,7 +343,7 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test27");
         com.example.softwarequality.SoftwareQuality.Controller.DataController dataController0 = new com.example.softwarequality.SoftwareQuality.Controller.DataController();
-        Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
+        java.lang.Object obj2 = dataController0.getModuleBasedResponse((int) (byte) 1);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList3 = dataController0.getModules();
         java.sql.ResultSet resultSet4 = null;
         dataController0.mapRow(resultSet4, '4');
@@ -361,9 +361,9 @@ public class RegressionTest0 {
         com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity feedbackRequestEntity3 = null;
         // The following exception was thrown during execution in test generation
         try {
-            Object obj4 = dataController0.submitFeedback(feedbackRequestEntity3);
+            java.lang.Object obj4 = dataController0.submitFeedback(feedbackRequestEntity3);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: Cannot invoke \"com.example.softwarequality.SoftwareQuality.Data.FeedbackRequestEntity.getModuleID()\" because \"feedback\" is null");
-        } catch (NullPointerException e) {
+        } catch (java.lang.NullPointerException e) {
             // Expected exception.
         }
         org.junit.Assert.assertNull(resultSet2);
@@ -377,7 +377,7 @@ public class RegressionTest0 {
         dataController0.getAllQuestions();
         java.sql.ResultSet resultSet2 = null;
         dataController0.mapRow(resultSet2, ' ');
-        Object obj6 = dataController0.getModuleBasedResponse((int) (short) 0);
+        java.lang.Object obj6 = dataController0.getModuleBasedResponse((int) (short) 0);
         java.util.List<com.example.softwarequality.SoftwareQuality.Data.Modules> modulesList7 = dataController0.getModules();
         boolean boolean10 = dataController0.checkResponseInDB((int) (short) -1, (int) 'a');
         org.junit.Assert.assertEquals("'" + obj6 + "' != '" + "Error 100024 ModuleId doesn't exist" + "'", obj6, "Error 100024 ModuleId doesn't exist");
