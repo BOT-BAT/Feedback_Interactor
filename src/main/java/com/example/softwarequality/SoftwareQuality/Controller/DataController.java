@@ -137,7 +137,6 @@ public class DataController implements QuestionInterface{
             this.addUser(feedback.getEmailAddress());
             this.getUserID(feedback.getEmailAddress());
             String insertResponse = "Insert into response (Response, ModuleID, QuestionID, UserID) values (?,?,?,?)";
-            //MySQLDataConnection con = new MySQLDataConnection();
             conn =  con.getConnection();
             conn.setAutoCommit(false);
             PreparedStatement prepareStatement = conn.prepareStatement(insertResponse);
