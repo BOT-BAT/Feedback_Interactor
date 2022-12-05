@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class MySQLDataConnection {
-    String connectionUrl = "jdbc:mysql://localhost:3306/questionairesystem?useSSL=false";
+    public String connectionUrl = "jdbc:mysql://localhost:3306/questionairesystem?useSSL=false";
 
     public Connection getConnection() {
         try{
