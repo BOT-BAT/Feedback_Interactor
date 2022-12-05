@@ -16,6 +16,16 @@ import java.util.regex.Pattern;
 
 @RestController
 public class DataController implements QuestionInterface{
+    public DataController(MySQLDataConnection mySQLDataConnection)
+    {
+        this.con =  mySQLDataConnection;
+    }
+    public DataController()
+    {
+        this.con = new MySQLDataConnection();
+    }
+
+    MySQLDataConnection con;
     private final String getAllQuestions = "SELECT *  FROM QUESTIONBANK";
     private final String LIST_MODULES = "SELECT * FROM MODULE";
     private int userID = 0;
@@ -52,8 +62,6 @@ public class DataController implements QuestionInterface{
         {
             return "Error 100024 ModuleId doesn't exist";
         }
-
-
     }
 
     private boolean checkModuleID(int moduleID) {
@@ -64,18 +72,16 @@ public class DataController implements QuestionInterface{
             ResultSet rs = this.getResultSet(checkModuleID);
             if (rs.next())
             {
-                conn.close();
                 return true;
 
             }
-            else {
-                conn.close();
-            }
+
         }
         catch(Exception ex)
         {
             System.out.println(""+ ex);
         }
+
         return false;
     }
 
@@ -131,7 +137,6 @@ public class DataController implements QuestionInterface{
             this.addUser(feedback.getEmailAddress());
             this.getUserID(feedback.getEmailAddress());
             String insertResponse = "Insert into response (Response, ModuleID, QuestionID, UserID) values (?,?,?,?)";
-            MySQLDataConnection con = new MySQLDataConnection();
             conn =  con.getConnection();
             conn.setAutoCommit(false);
             PreparedStatement prepareStatement = conn.prepareStatement(insertResponse);
@@ -181,7 +186,6 @@ public class DataController implements QuestionInterface{
             String get_UserID = "SELECT * FROM User where EmailAddress = '" + emailAddress + "'";
             ResultSet rs = this.getResultSet(get_UserID);
             this.mapRow(rs, 'u');
-            conn.close();
         }
         catch (Exception ex)
         {
@@ -234,7 +238,6 @@ public class DataController implements QuestionInterface{
     {
         try
         {
-            MySQLDataConnection con = new MySQLDataConnection();
             conn =  con.getConnection();
             return conn.createStatement();
         }
