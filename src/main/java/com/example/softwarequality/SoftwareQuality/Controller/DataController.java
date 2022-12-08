@@ -223,7 +223,7 @@ public class DataController implements QuestionInterface{
     {
         try
         {
-            String getResponseByModuleID = "SELECT Count(response.response) AS COUNT, response.Response, response.ModuleID, response.QuestionID, questionbank.Question  FROM response JOIN questionbank ON response.QuestionID=questionbank.QuestionID WHERE response.ModuleID = " + moduleID + " GROUP BY response.ModuleID,response.QuestionID";
+            String getResponseByModuleID = "SELECT Count(response.response) AS COUNT, response.Response, response.ModuleID, response.QuestionID, questionbank.Question  FROM response JOIN questionbank ON response.QuestionID=questionbank.QuestionID WHERE response.ModuleID = " + moduleID + " GROUP BY response.QuestionID, response.Response";
             ResultSet rs = this.getResultSet(getResponseByModuleID);
             response_list.clear();
             this.mapRow(rs, 'n');
